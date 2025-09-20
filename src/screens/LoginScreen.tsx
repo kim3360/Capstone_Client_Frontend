@@ -35,7 +35,7 @@ export const LoginScreen: React.FC = () => {
   };
 
   const formatPhoneNumber = (value: string) => {
-    const onlyNums = value.replace(/\D/g, ""); // 숫자만 추출
+    const onlyNums = value.replace(/\D/g, "");
     if (onlyNums.length < 4) return onlyNums;
     if (onlyNums.length < 8)
       return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3)}`;

@@ -20,6 +20,10 @@
 
   dispatch_once(&nativeComponentsToken, ^{
     thirdPartyComponents = @{
+		@"RNMapsGoogleMapView": NSClassFromString(@"RNMapsGoogleMapView"), // react-native-maps
+		@"RNMapsGooglePolygon": NSClassFromString(@"RNMapsGooglePolygonView"), // react-native-maps
+		@"RNMapsMapView": NSClassFromString(@"RNMapsMapView"), // react-native-maps
+		@"RNMapsMarker": NSClassFromString(@"RNMapsMarkerView"), // react-native-maps
 		@"RNCSafeAreaProvider": NSClassFromString(@"RNCSafeAreaProviderComponentView"), // react-native-safe-area-context
 		@"RNCSafeAreaView": NSClassFromString(@"RNCSafeAreaViewComponentView"), // react-native-safe-area-context
 		@"RNCWebView": NSClassFromString(@"RNCWebView"), // react-native-webview

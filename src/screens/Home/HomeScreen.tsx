@@ -17,33 +17,42 @@ import { Header } from "../../components/Header";
 import { Card } from "../../components/Card";
 import {
   getAllHostSessions,
+  getBannerData,
   HostSession,
+  BannerData,
   API_BASE_URL,
-} from "../../services/hostApi"; // API_BASE_URL 임포트
+} from "../../services/hostApi";
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export const HomeScreen: React.FC = () => {
-  console.log("HomeScreen rendered"); // 컴포넌트 렌더링 확인 로그
+  console.log("HomeScreen rendered");
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const [hostSessions, setHostSessions] = useState<HostSession[]>([]);
+  const [bannerData, setBannerData] = useState<BannerData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchHostSessions = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getAllHostSessions();
-        setHostSessions(data);
+        // 배너 데이터와 호스트 세션 데이터를 병렬로 가져오기
+        const [hostSessionsData, bannerDataResult] = await Promise.all([
+          getAllHostSessions(),
+          getBannerData(),
+        ]);
+
+        setHostSessions(hostSessionsData);
+        setBannerData(bannerDataResult);
       } catch (err) {
-        setError("호스트 세션을 불러오는 데 실패했습니다.");
-        console.error("Error fetching host sessions:", err);
+        setError("데이터를 불러오는 데 실패했습니다.");
+        console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchHostSessions();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -67,14 +76,19 @@ export const HomeScreen: React.FC = () => {
       <ScrollView style={styles.scrollView}>
         <Header />
 
+        {/* 배너 섹션 - API 데이터 사용 */}
         <View style={styles.banner}>
-          <Image
-            source={{
-              uri: "https://www.fashionbiz.co.kr/images/etcImg/1734912608622-%E3%84%B7%E3%84%B9%E3%84%B7%E3%84%B9%E3%84%B7%E3%84%B9%E3%84%B7.jpg",
-            }}
-            style={styles.bannerImage}
-            resizeMode="cover"
-          />
+          {bannerData &&
+            bannerData.imgList &&
+            bannerData.imgList.length > 0 && (
+              <Image
+                source={{
+                  uri: `${API_BASE_URL}${bannerData.imgList[0]}`,
+                }}
+                style={styles.bannerImage}
+                resizeMode="cover"
+              />
+            )}
         </View>
 
         {/* 인기 줄서기 스팟 */}
@@ -159,20 +173,18 @@ export const HomeScreen: React.FC = () => {
           >
             {hostSessions.map((session) => {
               let imageUrl =
-                "https://www.noblesse.com/shop/data/m/editor_new/2024/10/04/4307ea0d8f60886cimage1.jpg"; // 기본 대체 이미지 URL
-              console.log("Original session.imgUrl:", session.imgUrl); // 디버깅을 위한 로그 추가
+                "https://www.noblesse.com/shop/data/m/editor_new/2024/10/04/4307ea0d8f60886cimage1.jpg";
+              console.log("Original session.imgUrl:", session.imgUrl);
               if (session.imgUrl) {
                 if (session.imgUrl.startsWith("http://")) {
-                  // http로 시작하면 https로 강제 변경
                   imageUrl = `https://${session.imgUrl.substring(7)}`;
                 } else if (session.imgUrl.startsWith("https://")) {
                   imageUrl = session.imgUrl;
                 } else {
-                  // 상대 경로의 경우 API_BASE_URL에 직접 연결
                   imageUrl = `${API_BASE_URL}${session.imgUrl}`;
                 }
               }
-              console.log("Final imageUrl:", imageUrl); // 디버깅을 위한 로그 추가
+              console.log("Final imageUrl:", imageUrl);
               return (
                 <Card
                   key={session.hostId}

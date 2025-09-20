@@ -53,8 +53,9 @@ const StackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={isLoggedIn ? "MainTabs" : "LoginScreen"}
+      initialRouteName={isLoggedIn ? "MainTabs" : "SplashScreen"}
     >
+      <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
       <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
