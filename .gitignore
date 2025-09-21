@@ -70,6 +70,8 @@ local.properties
 
 # CocoaPods
 /ios/Pods/
+/ios/Podfile.lock
+/ios/Pods/Manifest.lock
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
@@ -165,3 +167,136 @@ $RECYCLE.BIN/
 
 # Flipper
 Flipper-Folly/
+
+# 추가: React Native 특화 항목들
+# Metro
+.metro-health-check*
+
+# React Native Debugger
+.react-native-debugger/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Bundle artifacts
+*.jsbundle
+
+# CocoaPods
+/ios/Pods/
+/ios/Podfile.lock
+/ios/Pods/Manifest.lock
+
+# Xcode
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+DerivedData/
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace/
+
+# Android/IntelliJ
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+*.keystore
+!debug.keystore
+
+# macOS
+.DS_Store
+*.pem
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# API Keys (중요!)
+**/GoogleService-Info.plist
+**/google-services.json
+**/secrets.xml
+**/Config.plist
+**/.env
+**/.env.local
+**/.env.development
+**/.env.production
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
