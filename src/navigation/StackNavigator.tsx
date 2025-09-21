@@ -8,6 +8,7 @@ import { SignupScreen } from "../screens/SignupScreen";
 import { BottomTabNavigator } from "./BottomTabNavigator";
 import { StorDetailScreen } from "../screens/StoreDetailScreen";
 import { WaitingNumScreen } from "../screens/WaitingList/WaitingNumScreen";
+import { AlramScreen } from "../screens/AlramScreen";
 
 export type RootStackParamList = {
   SplashScreen: undefined;
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   LoginScreen: undefined;
   SignupScreen: undefined;
   WaitingNumScreen: undefined;
+  AlramScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -53,7 +55,7 @@ const StackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={isLoggedIn ? "MainTabs" : "SplashScreen"}
+      initialRouteName="SplashScreen"
     >
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
@@ -61,6 +63,7 @@ const StackNavigator = () => {
       <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
       <Stack.Screen name="StorDetailScreen" component={StorDetailScreen} />
       <Stack.Screen name="WaitingNumScreen" component={WaitingNumScreen} />
+      <Stack.Screen name="AlramScreen" component={AlramScreen} />
     </Stack.Navigator>
   );
 };

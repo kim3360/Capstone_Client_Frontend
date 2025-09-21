@@ -36,14 +36,37 @@ export const HomeScreen: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 배너 데이터와 호스트 세션 데이터를 병렬로 가져오기
-        const [hostSessionsData, bannerDataResult] = await Promise.all([
-          getAllHostSessions(),
-          getBannerData(),
-        ]);
+        // 각 API를 독립적으로 처리하여 하나가 실패해도 다른 것은 계속 로드
+        const [hostSessionsResult, bannerDataResult] = await Promise.allSettled(
+          [getAllHostSessions(), getBannerData()]
+        );
 
-        setHostSessions(hostSessionsData);
-        setBannerData(bannerDataResult);
+        // 호스트 세션 데이터 처리
+        if (hostSessionsResult.status === "fulfilled") {
+          setHostSessions(hostSessionsResult.value);
+        } else {
+          console.error(
+            "호스트 세션 데이터 로드 실패:",
+            hostSessionsResult.reason
+          );
+          setHostSessions([]); // 빈 배열로 설정
+        }
+
+        // 배너 데이터 처리
+        if (bannerDataResult.status === "fulfilled") {
+          setBannerData(bannerDataResult.value);
+        } else {
+          console.error("배너 데이터 로드 실패:", bannerDataResult.reason);
+          setBannerData(null);
+        }
+
+        // 둘 다 실패한 경우에만 에러 상태로 설정
+        if (
+          hostSessionsResult.status === "rejected" &&
+          bannerDataResult.status === "rejected"
+        ) {
+          setError("데이터를 불러오는 데 실패했습니다.");
+        }
       } catch (err) {
         setError("데이터를 불러오는 데 실패했습니다.");
         console.error("Error fetching data:", err);
